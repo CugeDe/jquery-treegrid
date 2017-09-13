@@ -422,10 +422,10 @@
          * @returns {Node}
          */
         expand: function() {
-            if (!this.treegrid('isLeaf') && !this.treegrid("isExpanded")) {
+            /* if (!this.treegrid('isLeaf') && !this.treegrid("isExpanded")) { */
+            if (!this.treegrid("isExpanded")) {
                 this.trigger("expand");
                 this.trigger("change");
-                return this;
             }
             return this;
         },
@@ -461,7 +461,9 @@
         collapse: function() {
             return $(this).each(function() {
                 var $this = $(this);
-                if (!$this.treegrid('isLeaf') && !$this.treegrid("isCollapsed")) {
+
+                /* if (!$this.treegrid('isLeaf') && !$this.treegrid("isCollapsed")) { */
+                if (!$this.treegrid("isCollapsed")) {
                     $this.trigger("collapse");
                     $this.trigger("change");
                 }
@@ -498,6 +500,7 @@
          */
         toggle: function() {
             var $this = $(this);
+
             if ($this.treegrid('isExpanded')) {
                 $this.treegrid('collapse');
             } else {
@@ -513,16 +516,18 @@
         render: function() {
             return $(this).each(function() {
                 var $this = $(this);
+
                 //if parent colapsed we hidden
                 if ($this.treegrid('isOneOfParentsCollapsed')) {
                     $this.hide();
                 } else {
                     $this.show();
                 }
-                if (!$this.treegrid('isLeaf')) {
-                    $this.treegrid('renderExpander');
-                    $this.treegrid('getChildNodes').treegrid('render');
-                }
+
+                /* if (!$this.treegrid('isLeaf')) { */
+                $this.treegrid('renderExpander');
+                $this.treegrid('getChildNodes').treegrid('render');
+                /* } */
             });
         },
         /**
@@ -534,8 +539,8 @@
             return $(this).each(function() {
                 var $this = $(this);
                 var expander = $this.treegrid('getSetting', 'getExpander').apply(this);
-                if (expander) {
 
+                if (expander) {
                     if (!$this.treegrid('isCollapsed')) {
                         expander.removeClass($this.treegrid('getSetting', 'expanderCollapsedClass'));
                         expander.addClass($this.treegrid('getSetting', 'expanderExpandedClass'));
